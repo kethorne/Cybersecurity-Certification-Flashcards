@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards for {{ subject }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mx-auto">
+    <div class="grid grid-cols-4 gap-4 pt10">
+        <div class="content-start mx-0">
+             <!-- Home button -->
+    <button onclick="goHome()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-14">Home</button>
+        </div>
+        <div class="col-span-2 content-center">
+            <h1 class="text-5xl text-center font-bold mb-4 pt-12">Flashcards for {{ subject }}</h1>
+        </div>
+        <div class="content-end mx-0">
+           <button onclick="addFlashcard()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-14">Add Flashcard</button>
+        </div>
+
+
+    </div>
+
+ <!-- Grid to display flashcards -->
+   <div id="flashcardGrid" class="grid grid-cols-3 gap-4 pt-10">
+        {% for flashcard in flashcards %}
+        <div class="bg-white p-10 shadow-md rounded-md relative border-4 border-blue-500">
+            <div class="text-2xl text-center text-align:center font-bold mb-2">{{ flashcard.question }}</div>
+            <div class="answer hidden absolute top-0 left-0 w-full h-full bg-white p-2 shadow-md rounded-md backface-hidden">
+                <div class="text-2xl text center text-align:center">{{ flashcard.answer }}</div>
+            </div>
+        </div>
+        {% endfor %}
+
+<!--    <div class="bg-white p-10 shadow-md rounded-md relative border-4 border-blue-500" onclick="toggleCard(this)">-->
+<!--        <div class="text-2xl  text-center text-align:center font-bold mb-2">What are standoffs?</div>-->
+<!--        <div class="answer hidden absolute top-0 left-0 w-full h-full bg-white p-2 shadow-md rounded-md backface-hidden">-->
+
+<!--            <div class="text-2xl text center text-align:center">Screw holes that keep the mother board from touching the case</div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+<!--    <div class="bg-white p-10 shadow-md rounded-md relative border-4 border-blue-500" onclick="toggleCard(this)">-->
+<!--        <div class="text-2xl  text-center text-align:center font-bold mb-2">What is RAM?</div>-->
+<!--        <div class="answer hidden absolute top-0 left-0 w-full h-full bg-white p-2 shadow-md rounded-md backface-hidden">-->
+
+<!--            <div class="text-2xl text center text-align:center">Random Access Memory</div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+<!--    <div class="bg-white p-10 shadow-md rounded-md relative border-4 border-blue-500" onclick="toggleCard(this)">-->
+<!--        <div class="text-2xl  text-center text-align:center font-bold mb-2">What is DIMM?</div>-->
+<!--        <div class="answer hidden absolute top-0 left-0 w-full h-full bg-white p-2 shadow-md rounded-md backface-hidden">-->
+
+<!--            <div class="text-2xl text center text-align:center">Dual Inline Memory Module</div>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+
+</div>
+
+
+
+</body>
+</html>
+
+<script>
+    function toggleCard(card) {
+        // Get the answer element within the card
+        var answer = card.querySelector('.answer');
+
+        // Toggle the visibility of the answer
+        if (answer.classList.contains('hidden')) {
+            // If answer is hidden, show it and hide the question
+            card.children[0].classList.add('hidden');
+            answer.classList.remove('hidden');
+        } else {
+            // If answer is visible, hide it and show the question
+            card.children[0].classList.remove('hidden');
+            answer.classList.add('hidden');
+        }
+    }
+    function addFlashcard() {
+        // Create a new card element
+        var newCard = document.createElement('div');
+        newCard.className = 'bg-white p-10 shadow-md rounded-md relative border-4 border-blue-500';
+        newCard.setAttribute('onclick', 'toggleCard(this)');
+
+        // Prompt the user for question and answer
+        var question = prompt('Enter the question:');
+        var answer = prompt('Enter the answer:');
+
+        // Create elements for question and answer
+        var questionDiv = document.createElement('div');
+        questionDiv.className = 'text-2xl text-center text-align:center font-bold mb-2';
+        questionDiv.textContent = question;
+
+        var answerDiv = document.createElement('div');
+        answerDiv.className = 'answer hidden absolute top-0 left-0 w-full h-full bg-white p-2 shadow-md rounded-md backface-hidden';
+        answerDiv.innerHTML = '<div class="text-2xl text center text-align:center">' + answer + '</div>';
+
+        // Append question and answer to the new card
+        newCard.appendChild(questionDiv);
+        newCard.appendChild(answerDiv);
+
+        // Append the new card to the grid
+        document.getElementById('flashcardGrid').appendChild(newCard);
+    }
+    function goHome() {
+        // Redirect to the home page
+        window.location.href = '/';
+    }
+</script>
+
+
